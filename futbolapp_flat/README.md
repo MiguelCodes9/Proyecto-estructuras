@@ -1,3 +1,0 @@
-# Proyecto-estructuras
-## Primera parte
- 
