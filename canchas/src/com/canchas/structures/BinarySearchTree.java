@@ -3,7 +3,7 @@ package com.canchas.structures;
 import java.util.ArrayList;
 import java.util.List;
 
-// BST generico: izq < raiz < der | busqueda/insercion O(log n) promedio
+// BST generico: izq < raiz < der , busqueda/insercion 
 public class BinarySearchTree<T> {
 
     private TreeNode<T> raiz;
@@ -12,7 +12,7 @@ public class BinarySearchTree<T> {
         this.raiz = null;
     }
 
-    // --- INSERCION ---
+    // inserccion
 
     public void insertar(int key, T data) {
         raiz = insertarRec(raiz, key, data);
@@ -31,7 +31,7 @@ public class BinarySearchTree<T> {
         return nodo;
     }
 
-    // --- BUSQUEDA EXACTA ---
+    //  Busqueda exacta 
 
     public T buscar(int key) {
         TreeNode<T> nodo = buscarRec(raiz, key);
@@ -44,7 +44,7 @@ public class BinarySearchTree<T> {
         return buscarRec(nodo.right, key);
     }
 
-    // --- BUSQUEDA POR RANGO [keyMin, keyMax] ---
+    // busqueda por rangop
 
     public List<T> buscarPorRango(int keyMin, int keyMax) {
         List<T> resultado = new ArrayList<T>();
@@ -54,12 +54,12 @@ public class BinarySearchTree<T> {
 
     private void buscarPorRangoRec(TreeNode<T> nodo, int keyMin, int keyMax, List<T> resultado) {
         if (nodo == null) return;
-        if (nodo.key > keyMin) buscarPorRangoRec(nodo.left, keyMin, keyMax, resultado);   // poda izq
-        if (nodo.key >= keyMin && nodo.key <= keyMax) resultado.add(nodo.data);           // en rango
-        if (nodo.key < keyMax) buscarPorRangoRec(nodo.right, keyMin, keyMax, resultado);  // poda der
+        if (nodo.key > keyMin) buscarPorRangoRec(nodo.left, keyMin, keyMax, resultado);   
+        if (nodo.key >= keyMin && nodo.key <= keyMax) resultado.add(nodo.data);           
+        if (nodo.key < keyMax) buscarPorRangoRec(nodo.right, keyMin, keyMax, resultado);  
     }
 
-    // --- ELIMINACION ---
+    // Eliminacion
 
     public void eliminar(int key) {
         raiz = eliminarRec(raiz, key);
@@ -73,10 +73,10 @@ public class BinarySearchTree<T> {
         } else if (key > nodo.key) {
             nodo.right = eliminarRec(nodo.right, key);
         } else {
-            if (nodo.left == null)  return nodo.right; // sin hijo izq
-            if (nodo.right == null) return nodo.left;  // sin hijo der
+            if (nodo.left == null)  return nodo.right; 
+            if (nodo.right == null) return nodo.left;  
 
-            // dos hijos → sucesor in-order (minimo del subarbol derecho)
+           
             TreeNode<T> sucesor = minimoNodo(nodo.right);
             nodo.key  = sucesor.key;
             nodo.data = sucesor.data;
@@ -90,9 +90,9 @@ public class BinarySearchTree<T> {
         return nodo;
     }
 
-    // --- RECORRIDOS ---
+    // Recorridos
 
-    // In-Order: izq → raiz → der | resultado ascendente
+    // inorrder: resultado ascendente
     public List<T> recorridoInOrder() {
         List<T> resultado = new ArrayList<T>();
         inOrderRec(raiz, resultado);
@@ -106,7 +106,7 @@ public class BinarySearchTree<T> {
         inOrderRec(nodo.right, resultado);
     }
 
-    // Pre-Order: raiz → izq → der | refleja estructura del arbol
+    // preorder
     public List<T> recorridoPreOrder() {
         List<T> resultado = new ArrayList<T>();
         preOrderRec(raiz, resultado);
@@ -120,8 +120,7 @@ public class BinarySearchTree<T> {
         preOrderRec(nodo.right, resultado);
     }
 
-    // --- UTILIDADES ---
-
+    // utilidades
     public boolean estaVacio() { return raiz == null; }
 
     public int tamano() { return tamanoRec(raiz); }
