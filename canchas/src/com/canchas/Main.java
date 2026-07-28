@@ -375,54 +375,83 @@ public class Main {
     }
 
     private static void consultarRutaDijkstra(String sedeDestinoPredeterminada) {
-        System.out.println("\n--- CÁLCULO DE RUTA MÁS CORTA (DIJKSTRA) ---");
+        System.out.println("\n--- CALCULO DE RUTA MAS CORTA (DIJKSTRA) ---");
         String[] sedes = grafoSedes.getVertices();
 
-        String sedeOrigen = "";
-        String sedeDestino = "";
-
-        // Obtener sede origen
-        System.out.println("Sedes de origen disponibles:");
+        // ── Mostrar listado con indicador de cancha ──────────────────────
+        System.out.println("\nLocalidades disponibles ( [*] = tiene cancha de futbol ):");
+        System.out.println("-----------------------------------------------------------");
         for (int i = 0; i < sedes.length; i++) {
-            System.out.println((i + 1) + ". " + sedes[i]);
+            Field cancha = fieldService.buscarCanchaEnSede(sedes[i]);
+            if (cancha != null) {
+                System.out.printf("  %2d. %-20s [*] %s | Futbol %d | $%.0f/h%n",
+                        (i + 1), sedes[i],
+                        cancha.getName(),
+                        cancha.getCapacity(),
+                        cancha.getPricePerHour());
+            } else {
+                System.out.printf("  %2d. %s%n", (i + 1), sedes[i]);
+            }
         }
-        System.out.print("Selecciona tu sede de origen (número): ");
+        System.out.println("-----------------------------------------------------------");
+
+        // ── Seleccionar ORIGEN ───────────────────────────────────────────
+        System.out.print("\nSelecciona tu localidad de ORIGEN (numero): ");
         int opOrigen = leerEntero();
         if (opOrigen < 1 || opOrigen > sedes.length) {
-            System.out.println("-> [ERROR]: Origen no válido.");
+            System.out.println("-> [ERROR]: Numero de origen no valido.");
             return;
         }
-        sedeOrigen = sedes[opOrigen - 1];
+        String sedeOrigen = sedes[opOrigen - 1];
 
-        // Obtener sede destino
+        // Informar si el origen tiene cancha
+        Field canchaOrigen = fieldService.buscarCanchaEnSede(sedeOrigen);
+        if (canchaOrigen != null) {
+            System.out.println("-> Origen [*]: " + sedeOrigen + " tiene la cancha '"
+                    + canchaOrigen.getName() + "' (Futbol " + canchaOrigen.getCapacity()
+                    + " | $" + (int) canchaOrigen.getPricePerHour() + "/h).");
+        } else {
+            System.out.println("-> Origen: " + sedeOrigen + " (localidad de paso, sin cancha).");
+        }
+
+        // ── Seleccionar DESTINO ──────────────────────────────────────────
+        String sedeDestino;
         if (sedeDestinoPredeterminada != null) {
             sedeDestino = sedeDestinoPredeterminada;
-            System.out.println("Sede de destino predeterminada (Ubicación de la cancha): " + sedeDestino);
+            System.out.println("-> Destino: " + sedeDestino + " (sede de la cancha reservada).");
         } else {
-            System.out.println("Sedes de destino disponibles:");
-            for (int i = 0; i < sedes.length; i++) {
-                System.out.println((i + 1) + ". " + sedes[i]);
-            }
-            System.out.print("Selecciona la sede de destino (número): ");
+            System.out.print("\nSelecciona tu localidad de DESTINO (numero): ");
             int opDestino = leerEntero();
             if (opDestino < 1 || opDestino > sedes.length) {
-                System.out.println("-> [ERROR]: Destino no válido.");
+                System.out.println("-> [ERROR]: Numero de destino no valido.");
                 return;
             }
             sedeDestino = sedes[opDestino - 1];
+
+            // Informar si el destino tiene cancha
+            Field canchaDestino = fieldService.buscarCanchaEnSede(sedeDestino);
+            if (canchaDestino != null) {
+                System.out.println("-> Destino [*]: " + sedeDestino + " tiene la cancha '"
+                        + canchaDestino.getName() + "' (Futbol " + canchaDestino.getCapacity()
+                        + " | $" + (int) canchaDestino.getPricePerHour() + "/h).");
+            } else {
+                System.out.println("-> Destino: " + sedeDestino + " (localidad de paso, sin cancha).");
+            }
         }
 
+        // ── Validar que origen y destino sean distintos ──────────────────
         if (sedeOrigen.equalsIgnoreCase(sedeDestino)) {
-            System.out.println("-> [Ruta]: Ya te encuentras en la sede '" + sedeOrigen + "'. Distancia: 0 km.");
+            System.out.println("-> Ya te encuentras en '" + sedeOrigen + "'. Distancia: 0.00 km.");
             return;
         }
 
-        // Ejecutar Dijkstra
+        // ── Ejecutar Dijkstra y mostrar resultado ────────────────────────
         Graph.ResultadoRuta resultado = grafoSedes.calcularRutaMasCorta(sedeOrigen, sedeDestino);
         System.out.println("\n================ RESULTADO DE LA RUTA ================");
         System.out.println(resultado);
         System.out.println("======================================================");
     }
+
 
     // ==========================================
     // CARGA DE DATOS DE PRUEBA E INICIALIZACIÓN

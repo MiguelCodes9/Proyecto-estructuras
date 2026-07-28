@@ -91,6 +91,22 @@ public class FieldService {
     // ==========================================
 
     /**
+     * Busca si existe una cancha registrada en la sede (localidad) indicada.
+     * Recorre el listado In-Order del árbol de capacidades hasta encontrar coincidencia.
+     * @param sede nombre de la localidad a consultar.
+     * @return la Field asociada a esa sede, o null si no hay cancha en esa localidad.
+     */
+    public Field buscarCanchaEnSede(String sede) {
+        List<Field> todas = listarPorCapacidad();
+        for (Field f : todas) {
+            if (f.getLocation().equalsIgnoreCase(sede)) {
+                return f;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Busca la primera cancha que coincida exactamente con la capacidad dada.
      * @return la primera Field encontrada, o null si no existe.
      */
