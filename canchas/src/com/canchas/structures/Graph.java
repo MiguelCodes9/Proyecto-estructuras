@@ -227,7 +227,7 @@ public class Graph {
      */
     public static class ResultadoRuta {
 
-        /** Camino mínimo como lista enlazada de nombres de sedes (origen → destino). */
+        /** Camino minimo como lista enlazada de nombres de sedes (origen -> destino). */
         public ListaEnlazada<String> camino;
 
         /** Distancia total acumulada del camino mínimo en km. */
@@ -251,7 +251,7 @@ public class Graph {
             Nodo<String> actual = camino.head;
             while (actual != null) {
                 sb.append(actual.data);
-                if (actual.next != null) sb.append(" → ");
+                if (actual.next != null) sb.append(" -> ");
                 actual = actual.next;
             }
             return sb.toString();

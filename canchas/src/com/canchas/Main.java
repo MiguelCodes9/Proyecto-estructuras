@@ -15,7 +15,7 @@ public class Main {
     private static AuthService authService = new AuthService();
     private static FieldService fieldService = new FieldService();
     private static ReservationService reservationService = new ReservationService();
-    private static Graph grafoSedes = new Graph(10);
+    private static Graph grafoSedes = new Graph(20);
     private static Scanner lector = new Scanner(System.in);
     
     private static int contadorReservas = 1;
@@ -429,35 +429,124 @@ public class Main {
     // ==========================================
 
     private static void cargarDatosDePrueba() {
-        // 1. Cargar Sedes en el Grafo (Vértices)
+
+        // ─────────────────────────────────────────────────────────────────
+        // 1. SEDES PRINCIPALES (tienen canchas asociadas)
+        // ─────────────────────────────────────────────────────────────────
         grafoSedes.agregarVertice("Suba");
         grafoSedes.agregarVertice("Engativa");
         grafoSedes.agregarVertice("Kennedy");
         grafoSedes.agregarVertice("Teusaquillo");
         grafoSedes.agregarVertice("Usaquen");
 
-        // 2. Cargar Conexiones y Distancias (Aristas)
-        grafoSedes.agregarArista("Suba", "Engativa", 8.5);
-        grafoSedes.agregarArista("Suba", "Kennedy", 16.3);
-        grafoSedes.agregarArista("Suba", "Teusaquillo", 13.5);
-        grafoSedes.agregarArista("Suba", "Usaquen", 6.8);
-        grafoSedes.agregarArista("Engativa", "Teusaquillo", 10.2);
-        grafoSedes.agregarArista("Engativa", "Usaquen", 11.0);
-        grafoSedes.agregarArista("Engativa", "Kennedy", 12.9);
-        grafoSedes.agregarArista("Teusaquillo", "Usaquen", 12.3);
-        grafoSedes.agregarArista("Teusaquillo", "Kennedy", 8.4);
-        grafoSedes.agregarArista("Usaquen", "Kennedy", 19.5);
+        // ─────────────────────────────────────────────────────────────────
+        // 2. NODOS INTERMEDIOS (solo de paso, sin canchas)
+        // ─────────────────────────────────────────────────────────────────
+        grafoSedes.agregarVertice("Chapinero");
+        grafoSedes.agregarVertice("Barrios Unidos");
+        grafoSedes.agregarVertice("Fontibon");
+        grafoSedes.agregarVertice("Santafe");
+        grafoSedes.agregarVertice("La Candelaria");
+        grafoSedes.agregarVertice("Los Martires");
+        grafoSedes.agregarVertice("Puente Aranda");
+        grafoSedes.agregarVertice("Antonio Narino");
+        grafoSedes.agregarVertice("Tunjuelito");
+        grafoSedes.agregarVertice("Rafael Uribe");
+        grafoSedes.agregarVertice("San Cristobal");
+        grafoSedes.agregarVertice("Usme");
+        grafoSedes.agregarVertice("Ciudad Bolivar");
+        grafoSedes.agregarVertice("Bosa");
 
-        // 3. Cargar Canchas en el Catálogo (BST)
-        fieldService.agregarCancha(new Field("C1", "El Bosque", "Suba", 7, 60000));
-        fieldService.agregarCancha(new Field("C2", "La 80", "Engativa", 5, 45000));
-        fieldService.agregarCancha(new Field("C3", "Estadio", "Teusaquillo", 11, 90000));
-        fieldService.agregarCancha(new Field("C4", "Los Pinos", "Usaquen", 5, 40000));
-        fieldService.agregarCancha(new Field("C5", "Sur Norte", "Kennedy", 7, 55000));
+        // ─────────────────────────────────────────────────────────────────
+        // 3. CONEXIONES ENTRE SEDES PRINCIPALES (distancias originales)
+        // ─────────────────────────────────────────────────────────────────
+        grafoSedes.agregarArista("Suba",        "Engativa",    8.5);
+        grafoSedes.agregarArista("Suba",        "Kennedy",    16.3);
+        grafoSedes.agregarArista("Suba",        "Teusaquillo",13.5);
+        grafoSedes.agregarArista("Suba",        "Usaquen",     6.8);
+        grafoSedes.agregarArista("Engativa",    "Teusaquillo",10.2);
+        grafoSedes.agregarArista("Engativa",    "Usaquen",    11.0);
+        grafoSedes.agregarArista("Engativa",    "Kennedy",    12.9);
+        grafoSedes.agregarArista("Teusaquillo", "Usaquen",    12.3);
+        grafoSedes.agregarArista("Teusaquillo", "Kennedy",     8.4);
+        grafoSedes.agregarArista("Usaquen",     "Kennedy",    19.5);
 
-        // 4. Registrar Usuarios Iniciales
+        // ─────────────────────────────────────────────────────────────────
+        // 4. SEDES PRINCIPALES <-> NODOS INTERMEDIOS
+        // ─────────────────────────────────────────────────────────────────
+        // Suba
+        grafoSedes.agregarArista("Suba",        "Barrios Unidos",  7.0);
+
+        // Usaquen
+        grafoSedes.agregarArista("Usaquen",     "Chapinero",       5.5);
+
+        // Engativa
+        grafoSedes.agregarArista("Engativa",    "Fontibon",         6.0);
+        grafoSedes.agregarArista("Engativa",    "Barrios Unidos",   7.5);
+
+        // Teusaquillo
+        grafoSedes.agregarArista("Teusaquillo", "Barrios Unidos",   4.5);
+        grafoSedes.agregarArista("Teusaquillo", "Chapinero",        5.0);
+        grafoSedes.agregarArista("Teusaquillo", "Los Martires",     3.5);
+        grafoSedes.agregarArista("Teusaquillo", "Puente Aranda",    4.0);
+
+        // Kennedy
+        grafoSedes.agregarArista("Kennedy",     "Bosa",             6.5);
+        grafoSedes.agregarArista("Kennedy",     "Fontibon",         5.0);
+        grafoSedes.agregarArista("Kennedy",     "Puente Aranda",    5.5);
+        grafoSedes.agregarArista("Kennedy",     "Tunjuelito",       7.5);
+
+        // ─────────────────────────────────────────────────────────────────
+        // 5. CONEXIONES ENTRE NODOS INTERMEDIOS
+        // ─────────────────────────────────────────────────────────────────
+        // Zona Norte / Centro-Norte
+        grafoSedes.agregarArista("Chapinero",      "Barrios Unidos",  4.0);
+        grafoSedes.agregarArista("Chapinero",      "Santafe",         3.5);
+        grafoSedes.agregarArista("Barrios Unidos", "Los Martires",    5.0);
+
+        // Zona Occidente
+        grafoSedes.agregarArista("Fontibon",       "Puente Aranda",   6.5);
+        grafoSedes.agregarArista("Fontibon",       "Bosa",            9.0);
+
+        // Zona Centro
+        grafoSedes.agregarArista("Santafe",        "La Candelaria",   2.0);
+        grafoSedes.agregarArista("Santafe",        "Los Martires",    3.0);
+        grafoSedes.agregarArista("Santafe",        "Antonio Narino",  4.5);
+        grafoSedes.agregarArista("Santafe",        "San Cristobal",   5.0);
+        grafoSedes.agregarArista("La Candelaria",  "Los Martires",    2.5);
+        grafoSedes.agregarArista("La Candelaria",  "Antonio Narino",  3.5);
+        grafoSedes.agregarArista("Los Martires",   "Puente Aranda",   3.0);
+        grafoSedes.agregarArista("Los Martires",   "Antonio Narino",  3.5);
+        grafoSedes.agregarArista("Puente Aranda",  "Antonio Narino",  4.0);
+        grafoSedes.agregarArista("Puente Aranda",  "Tunjuelito",      7.0);
+
+        // Zona Sur
+        grafoSedes.agregarArista("Antonio Narino", "Rafael Uribe",    4.5);
+        grafoSedes.agregarArista("Antonio Narino", "Tunjuelito",      5.0);
+        grafoSedes.agregarArista("Tunjuelito",     "Ciudad Bolivar",  5.5);
+        grafoSedes.agregarArista("Tunjuelito",     "Rafael Uribe",    5.0);
+        grafoSedes.agregarArista("Tunjuelito",     "Bosa",            8.0);
+        grafoSedes.agregarArista("Rafael Uribe",   "San Cristobal",   5.5);
+        grafoSedes.agregarArista("Rafael Uribe",   "Ciudad Bolivar",  7.0);
+        grafoSedes.agregarArista("Rafael Uribe",   "Usme",            8.0);
+        grafoSedes.agregarArista("San Cristobal",  "Usme",            7.0);
+        grafoSedes.agregarArista("Usme",           "Ciudad Bolivar",  9.0);
+        grafoSedes.agregarArista("Ciudad Bolivar", "Bosa",            6.5);
+
+        // ─────────────────────────────────────────────────────────────────
+        // 6. CANCHAS EN EL CATÁLOGO (BST - solo sedes principales)
+        // ─────────────────────────────────────────────────────────────────
+        fieldService.agregarCancha(new Field("C1", "El Bosque",  "Suba",        7, 60000));
+        fieldService.agregarCancha(new Field("C2", "La 80",      "Engativa",    5, 45000));
+        fieldService.agregarCancha(new Field("C3", "Estadio",    "Teusaquillo", 11, 90000));
+        fieldService.agregarCancha(new Field("C4", "Los Pinos",  "Usaquen",     5, 40000));
+        fieldService.agregarCancha(new Field("C5", "Sur Norte",  "Kennedy",     7, 55000));
+
+        // ─────────────────────────────────────────────────────────────────
+        // 7. USUARIOS INICIALES
+        // ─────────────────────────────────────────────────────────────────
         authService.register("1001", "migue", "123", "Miguel Angel");
-        authService.register("1002", "juli", "456", "Juliana Gomez");
+        authService.register("1002", "juli",  "456", "Juliana Gomez");
     }
 
     // ==========================================
