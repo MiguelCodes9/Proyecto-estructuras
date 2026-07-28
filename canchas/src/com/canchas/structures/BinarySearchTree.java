@@ -22,11 +22,9 @@ public class BinarySearchTree<T> {
         if (nodo == null) return new TreeNode<T>(key, data);
 
         if (key < nodo.key) {
-            nodo.left = insertarRec(nodo.left, key, data);  // menor → izquierda
-        } else if (key > nodo.key) {
-            nodo.right = insertarRec(nodo.right, key, data); // mayor → derecha
+            nodo.left  = insertarRec(nodo.left,  key, data); // menor → izquierda
         } else {
-            nodo.data = data; // clave duplicada: actualizar
+            nodo.right = insertarRec(nodo.right, key, data); // mayor o igual → derecha (permite duplicados)
         }
         return nodo;
     }
