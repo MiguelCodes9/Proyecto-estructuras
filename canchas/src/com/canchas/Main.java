@@ -32,7 +32,7 @@ public class Main {
             System.out.println("\n=== MENU PRINCIPAL ===");
             System.out.println("1. Registrarse (Nuevo Jugador)");
             System.out.println("2. Iniciar Sesion");
-            System.out.println("3. Ver Sedes de Canchas y Rutas (Grafo & Dijkstra)");
+            System.out.println("3. Ver Sedes de Canchas y Rutas");
             System.out.println("4. Salir");
             System.out.print("Selecciona una opcion: ");
 
@@ -105,11 +105,11 @@ public class Main {
         boolean sesionActiva = true;
         while (sesionActiva) {
             System.out.println("\n=== PANEL DE JUGADOR: " + usuario.getName().toUpperCase() + " ===");
-            System.out.println("1. Ver Catálogo de Canchas (Listar por Precio/Capacidad)");
-            System.out.println("2. Filtrar Canchas por Rango (Precio/Capacidad)");
+            System.out.println("1. Ver Catálogo de Canchas");
+            System.out.println("2. Filtrar Canchas por Rango");
             System.out.println("3. Solicitar Reserva de Cancha");
             System.out.println("4. Consultar Ruta y Distancia hacia una Sede");
-            System.out.println("5. Ver mi Historial de Reservas (HashTable + ListaEnlazada)");
+            System.out.println("5. Ver mi Historial de Reservas ");
             System.out.println("6. Cerrar Sesión");
             System.out.print("Selecciona una opción: ");
 
@@ -145,9 +145,9 @@ public class Main {
         boolean adminActivo = true;
         while (adminActivo) {
             System.out.println("\n=== PANEL DE ADMINISTRACIÓN ===");
-            System.out.println("1. Registrar Nueva Cancha (Agregar al BST)");
-            System.out.println("2. Ver Cola de Solicitudes de Reservas (FIFO - ListaEnlazada)");
-            System.out.println("3. Procesar Siguiente Solicitud (Aprobar/Rechazar)");
+            System.out.println("1. Registrar Nueva Cancha ");
+            System.out.println("2. Ver Cola de Solicitudes de Reservas ");
+            System.out.println("3. Procesar Siguiente Solicitud ");
             System.out.println("4. Ver Estructura del Árbol de Canchas");
             System.out.println("5. Volver al Menú Principal");
             System.out.print("Selecciona una opción: ");
@@ -181,7 +181,7 @@ public class Main {
         while (grafoActivo) {
             System.out.println("\n=== RUTAS Y SEDES DE CANCHAS ===");
             System.out.println("1. Mostrar Matriz de Distancias entre Sedes");
-            System.out.println("2. Calcular Camino Más Corto entre Dos Sedes (Dijkstra)");
+            System.out.println("2. Calcular Camino Más Corto entre Dos Sedes ");
             System.out.println("3. Volver al Menú Principal");
             System.out.print("Selecciona una opción: ");
 
@@ -209,8 +209,8 @@ public class Main {
 
     private static void listarCatalogos() {
         System.out.println("\n--- VER CATÁLOGO DE CANCHAS ---");
-        System.out.println("1. Listar por capacidad (In-Order BST)");
-        System.out.println("2. Listar por precio (In-Order BST)");
+        System.out.println("1. Listar por capacidad ");
+        System.out.println("2. Listar por precio )");
         System.out.println("0. Volver");
         System.out.print("Selecciona: ");
         int op = leerEntero();
@@ -375,7 +375,7 @@ public class Main {
     }
 
     private static void consultarRutaDijkstra(String sedeDestinoPredeterminada) {
-        System.out.println("\n--- CALCULO DE RUTA MAS CORTA (DIJKSTRA) ---");
+        System.out.println("\n--- CALCULO DE RUTA MAS CORTA ---");
         String[] sedes = grafoSedes.getVertices();
 
         // ── Mostrar listado con indicador de cancha ──────────────────────
