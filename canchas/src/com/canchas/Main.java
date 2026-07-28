@@ -2,13 +2,10 @@ package com.canchas;
 
 import com.canchas.models.Field;
 import com.canchas.models.User;
-import com.canchas.models.Reservation;
 import com.canchas.services.AuthService;
 import com.canchas.services.FieldService;
 import com.canchas.services.ReservationService;
 import com.canchas.structures.Graph;
-import com.canchas.structures.ListaEnlazada;
-import com.canchas.structures.Nodo;
 
 import java.util.List;
 import java.util.Scanner;
@@ -274,10 +271,13 @@ public class Main {
 
     private static void agregarCanchaAdmin() {
         System.out.println("\n--- REGISTRAR NUEVA CANCHA ---");
-        System.out.print("ID de la cancha (ej: C6): ");
-        String id = lector.nextLine().trim();
-        System.out.print("Nombre de la cancha: ");
-        String nombre = lector.nextLine().trim();
+
+        // Usar leerTexto() para evitar problemas de buffer con Scanner
+        String id = leerTexto("ID de la cancha (ej: C6)");
+        if (id == null) return;
+
+        String nombre = leerTexto("Nombre de la cancha");
+        if (nombre == null) return;
 
         // Mostrar sedes del grafo para que el administrador asocie la cancha a una sede válida
         System.out.println("Sedes de juego disponibles:");
@@ -295,8 +295,16 @@ public class Main {
 
         System.out.print("Capacidad (5, 7 o 11 jugadores): ");
         int cap = leerEntero();
+        if (cap != 5 && cap != 7 && cap != 11) {
+            System.out.println("-> [ERROR]: Capacidad inválida. Solo se permiten 5, 7 u 11 jugadores.");
+            return;
+        }
         System.out.print("Precio por hora: ");
         int precio = leerEntero();
+        if (precio <= 0) {
+            System.out.println("-> [ERROR]: El precio debe ser mayor a 0.");
+            return;
+        }
 
         fieldService.agregarCancha(new Field(id, nombre, ubicacion, cap, precio));
     }
